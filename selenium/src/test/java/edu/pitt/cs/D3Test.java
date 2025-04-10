@@ -150,25 +150,43 @@ public class D3Test {
   }
   @Test
   public void tEST9FEED() {
-    driver.get("http://localhost:8080");
-    driver.findElement(By.xpath("//html/body/div/header/nav/ul/li[4]/a")).click();
+    driver.get("https://cs1632.appspot.com/");
+    driver.findElement(By.linkText("Reset")).click();
+    driver.findElement(By.linkText("Feed-A-Cat")).click();
     {
-      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-      wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"catnips\"]")));
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"catnips\"]")));
     }
     driver.findElement(By.xpath("//*[@id=\"catnips\"]")).sendKeys("6");
-    driver.findElement(By.xpath("//html/body/div/main/div[1]/div[2]/div[3]/button")).click();
-    assertThat(driver.findElement(By.xpath("//*[@id=\"feedResult\"]")).getText(), is("Nom, nom, nom."));
+    driver.findElement(By.xpath("//html/body/div/main/div[1]/div[2]/div[3]/button	")).click();
+    {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id=\"feedResult\"]")));
+    }
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    assertThat(driver.findElement(By.xpath("//div[@id=\"feedResult\"]")).getText(), is("Nom, nom, nom."));
   }
   @Test
   public void tEST10GREETACAT() {
-    driver.get("http://localhost:8080");
-    driver.findElement(By.xpath("//html/body/div/header/nav/ul/li[6]/a")).click();
+    driver.get("https://cs1632.appspot.com/");
+    driver.findElement(By.linkText("Greet-A-Cat")).click();
+    {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"greeting\"]/h4")));
+    }
     assertThat(driver.findElement(By.xpath("//*[@id=\"greeting\"]/h4")).getText(), is("Meow!Meow!Meow!"));
   }
   @Test
   public void tEST11GREETACATWITHNAME() {
-    driver.get("http://localhost:8080/greet-a-cat/Jennyanydots");
+    driver.get("https://cs1632.appspot.com/greet-a-cat/Jennyanydots	");
+    {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"greeting\"]/h4	")));
+    }
     assertThat(driver.findElement(By.xpath("//*[@id=\"greeting\"]/h4")).getText(), is("Meow! from Jennyanydots."));
   }
 }
